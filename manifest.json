@@ -1,0 +1,17 @@
+{
+	"name": "Bookmark+",
+	"version": "1.0",
+	"manifest_version": 2,
+	"description": "This let you to manage your bookmarks conveniently and easily.",
+	"browser_action": {
+		"default_icon" : "assets/img/icon.png",
+		"default_title": "Bookmark+",
+		"default_popup": "popup.html"
+	},
+	"incognito": "spanning",
+	"permissions": [
+		"bookmarks",
+		"contextMenus",
+		"tabs"
+	]
+}

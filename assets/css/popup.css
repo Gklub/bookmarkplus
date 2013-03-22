@@ -1,0 +1,14 @@
+.block {
+	height: 50px;
+	width: 50px;
+	padding: 10px;
+	border: 1px solid red;
+	overflow: hidden;
+	text-overflow:ellipsis;
+}
+
+
+.folder {
+
+
+}
