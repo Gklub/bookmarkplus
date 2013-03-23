@@ -87,6 +87,13 @@ function dumpNode(bookmarkNode, query) {
 			'data-id': bookmarkNode.id
 		});
 		//设置方块显示的文字，即title
+		block.addClass("block");
+		block.addClass("span1");
+		block.attr({
+			'draggable': "true",
+			'data-url': bookmarkNode.url,
+			'data-id': bookmarkNode.id,
+		});
 		block.text(bookmarkNode.title);
 		//绑定block的点击事件，点击的时候弹出新tab
 		block.click(function() {
