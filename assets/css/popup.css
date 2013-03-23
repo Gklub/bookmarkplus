@@ -1,14 +1,22 @@
 .block {
 	height: 50px;
-	width: 50px;
 	padding: 10px;
-	border: 1px solid red;
+	background-color: #f0f8ff;
 	overflow: hidden;
 	text-overflow:ellipsis;
 }
 
+body {
+	width: 530px;
+}
 
-.folder {
+.block:hover {
+	color: white;
+	background-color: white;
+	cursor: -webkit-grab;
+}
 
-
+＃dustbin {
+	/*opacity: 0.4;*/
+	float: right;
 }
