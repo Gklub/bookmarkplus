@@ -11,7 +11,7 @@
 	"incognito": "spanning",
 	"permissions": [
 		"bookmarks",
-		"contextMenus",
-		"tabs"
+		"tabs",
+		"clipboardWrite"
 	]
 }
