@@ -16,7 +16,6 @@ body {
 	cursor: -webkit-grab;
 }
 
-＃dustbin {
-	/*opacity: 0.4;*/
-	float: right;
+.dustbinhover {
+	opacity: 0.4;
 }
