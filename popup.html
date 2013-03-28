@@ -1,0 +1,41 @@
+<!doctype html>
+<html>
+<head>
+	<link rel="stylesheet" href="assets/css/bootstrap.min.css" >
+	<link rel="stylesheet" href="assets/css/bootstrap-responsive.min.css" >
+	<link rel="stylesheet" href="assets/css/popup.css">
+	<link rel="stylesheet" href="assets/css/jquery.contextMenu.css">
+	<link rel="stylesheet" href="assets/css/common.css">
+</head>
+<body>	
+	<div class="container">
+		<div class="row">
+			<div id="bookmarks"></div>
+		</div>
+	</div>
+	
+	<div class="modal hide" data-backdrop="true" data-keyboard="true" id="folder">
+		<div class="row">
+			<div class="modal-body" id="inside"></div>
+		</div>
+	</div>
+	
+	<div class="modal hide" data-backdrop="false" data-keyboard="true" id="edit">
+		<div class="modal-header">
+			<a class="close" data-dismiss="modal">x</a>
+			<h2>Edit Title</h2>
+		</div>
+		<div class="modal-body">
+			<input type="text" class="span3" id="editInput" />
+		</div>
+		<div class="modal-footer">
+			<a class="btn pull-right btn-primary" id="btnConfirm">Confirm</a>
+		</div>
+	</div>
+
+	<script src="assets/js/jquery.js"></script>
+	<script src="assets/js/bootstrap.min.js"></script>
+	<script src="assets/js/popup.js"></script>
+	<script src="assets/js/jquery.contextMenu.js"></script>
+</body>
+</html>

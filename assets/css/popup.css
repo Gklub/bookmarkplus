@@ -1,0 +1,21 @@
+.block {
+	height: 50px;
+	padding: 10px;
+	background-color: #f0f8ff;
+	overflow: hidden;
+	text-overflow:ellipsis;
+}
+
+body {
+	width: 530px;
+}
+
+.block:hover {
+	color: white;
+	background-color: white;
+	cursor: -webkit-grab;
+}
+
+.dustbinhover {
+	opacity: 0.4;
+}

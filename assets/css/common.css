@@ -1,0 +1,11 @@
+.container {
+	padding: 10px;
+}
+
+#edit {
+	position: relative;
+}
+
+#folder {
+	position: relative;
+}

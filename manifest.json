@@ -1,0 +1,26 @@
+{
+	"manifest_version": 2,
+
+	"name": "Bookmark+",
+	"version": "1.0",
+	"description": "Bookmark+ let you to manage your bookmarks conveniently and easily.",
+	"icons": {
+		"16": "assets/img/icon16.png",
+		"48": "assets/img/icon48.png",
+		"128": "assets/img/icon128.png"
+	},
+
+	"browser_action": {
+		"default_icon" : "assets/img/icon.png",
+		"default_title": "Bookmark+",
+		"default_popup": "popup.html"
+	},
+	"incognito": "spanning",
+
+	"permissions": [
+		"chrome://favicon/",
+		"bookmarks",
+		"tabs",
+		"clipboardWrite"
+	]
+}
