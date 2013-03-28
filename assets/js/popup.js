@@ -37,8 +37,7 @@ $(
 	})
 );
 
-
-//右键菜单----------------------------------------------------------------------------
+//右键菜单----------------------------------------------------------------------
 $(function() {
 	$.contextMenu({
 		selector: '.block',
@@ -70,7 +69,6 @@ $(function() {
 		}
 	});
 });
-
 
 
 //遍历书签夹----------------------------------------------------------------------
@@ -150,7 +148,7 @@ function dumpNode(bookmarkNode, query) {
 			});
 		}
 	}
-	//console.log(bookmarkNode);
+
 	if (bookmarkNode.children && bookmarkNode.id <= 3) {
 		dumpTreeNodes(bookmarkNode.children, query);
 		//console.log("This is the No." + count + " loop dump.I am dumping " + bookmarkNode.title);
@@ -192,6 +190,7 @@ function handleBookmarkDrop(idDrop) {
 }
 
 
+
 //handleFolderDrop---------------------------------------------------------------
 function handleFolderDrop(idDrop) {
 	var idDropped = idOperating1;
@@ -214,7 +213,6 @@ function clean() {
 	
 	$('#inside').html("");
 }
-
 
 
 //复制到剪切板，其实就是临时创建一个div然后把text放进去再设置焦点，最后模拟ctrl+c行为----
