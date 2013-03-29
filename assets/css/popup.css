@@ -1,21 +1,42 @@
+body {
+	width: 530px;
+}
+
 .block {
 	height: 50px;
 	padding: 10px;
+	margin: 10px;
 	background-color: #f0f8ff;
 	overflow: hidden;
 	text-overflow:ellipsis;
 }
 
-body {
-	width: 530px;
-}
-
 .block:hover {
-	color: white;
 	background-color: white;
 	cursor: -webkit-grab;
 }
 
-.dustbinhover {
-	opacity: 0.4;
+.folder {
+	background-color: #f0e68c;
+	height: 50px;
+	padding: 10px;
+	margin: 10px;
+	overflow: hidden;
+}
+
+.folder:hover {
+	background-color: white;
+	cursor: -webkit-grab;
+}
+
+.container {
+	padding: 10px;
+}
+
+#edit {
+	position: fixed;
+}
+
+#folder {
+	position: fixed;
 }

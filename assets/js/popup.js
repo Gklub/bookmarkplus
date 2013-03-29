@@ -9,6 +9,7 @@
 //全局变量，用于存放正在操作的书签id
 var idOperating1 = 0;
 var idOperating2 = 0;
+var count = 1;
 
 //初始化，绑定事件监听－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－
 $(dumpBookmarks());
@@ -94,59 +95,56 @@ function dumpInsideNodes(bookmarkNodes, query) {
 }
 
 function dumpNode(bookmarkNode, query) {
-	if(bookmarkNode.title) {
-		var block = $('<div>');
+	var block = $('<div>');
+	var br = $('<br>');
+	
+	//设置方块显示的文字，即title
+	block.text(bookmarkNode.title);
+	block.addClass("span1");
+	//添加属性
+	block.attr({
+		'draggable': "true",
+		'data-url': bookmarkNode.url,
+		'data-id': bookmarkNode.id
+	});
+	
+	//绑定ondragstart和ondragover事件
+	block.on('dragstart', function() {	
+		idOperating1 = $(this).attr('data-id');
+	});
+	block.on('dragover', function(event) {
+		event.preventDefault();
+	});
+	
+	//书签夹和书签的click事件，drop事件，样式都不同，区分方法则为bookmarkNode.url
+	if(bookmarkNode.title && bookmarkNode.url) {
 		block.addClass("block");  //添加样式
-		block.addClass("span1");
-		//添加属性
-		block.attr({
-			'draggable': "true",
-			'data-url': bookmarkNode.url,
-			'data-id': bookmarkNode.id
-		});
-		//设置方块显示的文字，即title
-		block.addClass("block");
-		block.addClass("span1");
-		block.attr({
-			'draggable': "true",
-			'data-url': bookmarkNode.url,
-			'data-id': bookmarkNode.id,
-		});
-		block.text(bookmarkNode.title);
 		
-		//绑定书签block的点击事件，点击的时候弹出新tab，若为文件夹，出现内部内容
-		if (bookmarkNode.url) {
-			block.click(function() {
-				chrome.tabs.create({url: bookmarkNode.url});
-			});
-		}else { //绑定书签夹的点击事件
-			block.click(function() {
-				clean();
-				dumpInsideNodes(bookmarkNode.children);
-				$('#folder').modal('show');
-			});
-		}
-		//绑定ondragstart事件
-		block.on('dragstart', function() {
-			$('#dustbin').show();
-			idOperating1 = $(this).attr('data-id');
+		block.click(function() {
+			chrome.tabs.create({url: bookmarkNode.url});
 		});
-		block.on('dragover', function(event) {
+		
+		block.on('drop', function(event) {
 			event.preventDefault();
+			handleBookmarkDrop(block.attr('data-id'));
 		});
 		
-		//绑定书签block的ondrop事件，当两个block重叠时将它们合并到一个书签夹里
-		if(bookmarkNode.url) {
-			block.on('drop', function(event) {
-				event.preventDefault();
-				handleBookmarkDrop(block.attr('data-id'));
-			});
-		}else {			//绑定书签夹block的ondrop事件，将书签移动到书签夹里
-			block.on('drop', function(event) {
-				event.preventDefault();
-				handleFolderDrop(block.attr('data-id'));
-			});
-		}
+		var favicon = $('<img>');
+		favicon.attr('src', 'chrome://favicon/' + bookmarkNode.url);
+		block.prepend(favicon);
+	}else if(bookmarkNode.title) {
+		block.addClass("folder"); //添加样式
+		
+		block.click(function() {
+			clean();
+			dumpInsideNodes(bookmarkNode.children);
+			$('#folder').modal('show');
+		});
+		
+		block.on('drop', function(event) {
+			event.preventDefault();
+			handleFolderDrop(block.attr('data-id'));
+		});
 	}
 
 	if (bookmarkNode.children && bookmarkNode.id <= 3) {
@@ -154,7 +152,13 @@ function dumpNode(bookmarkNode, query) {
 		//console.log("This is the No." + count + " loop dump.I am dumping " + bookmarkNode.title);
 	}
 	if(bookmarkNode.id != 1 && bookmarkNode.id != 2) {
-		return block;
+		if(count%5 != 0) {
+			return block;
+		}else {
+			$('#bookmarks').append('<br><br>');
+			return block;
+		}
+		count++;
 	}
 }
 
@@ -194,11 +198,12 @@ function handleBookmarkDrop(idDrop) {
 //handleFolderDrop---------------------------------------------------------------
 function handleFolderDrop(idDrop) {
 	var idDropped = idOperating1;
-	chrome.bookmarks.move(
-		idDropped,
-		{parentId: idDrop}
-	);
-	
+	if(idDrop != idDropped) {
+		chrome.bookmarks.move(
+			idDropped,
+			{parentId: idDrop}
+		);
+	}
 	//clean
 	clean();
 	
