@@ -71,6 +71,29 @@ $(function() {
 	});
 });
 
+$(function() {
+	$.contextMenu({
+		selector: '.folder',
+		items: {
+			"edit": {
+				name: "Edit",
+				callback: function(key, options) {
+					$('#editInput').val($(this).text());
+					idOperating1 = $(this).attr('data-id');
+					$('#edit').modal('show');
+				}
+			},
+			"copy": {
+				name: "Copy URL",
+				callback: function(key, options) {
+					var url = $(this).attr('data-url');
+					copyToClipboard(url);
+				}
+			}
+		}
+	});
+});
+
 
 //遍历书签夹----------------------------------------------------------------------
 function dumpBookmarks(query) {
@@ -172,7 +195,7 @@ function handleBookmarkDrop(idDrop) {
 		//创建书签夹，不指定url
 		var bookmarkFolderCreated =  chrome.bookmarks.create({
 			parentId: "1",
-			title: "Bookmark Folder"
+			title: "Untitled Folder"
 		}, function(bookmarkFolderCreated) {
 			console.log("BookmarkFolder has been created successfully." + bookmarkFolderCreated);
 			//将两个书签都移动到书签夹里

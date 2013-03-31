@@ -9,6 +9,7 @@ body {
 	background-color: #f0f8ff;
 	overflow: hidden;
 	text-overflow:ellipsis;
+	border-radius: 10px;
 }
 
 .block:hover {
@@ -17,15 +18,16 @@ body {
 }
 
 .folder {
-	background-color: #f0e68c;
+	background-image: url(../img/folder.gif);
 	height: 50px;
 	padding: 10px;
 	margin: 10px;
 	overflow: hidden;
+	border-radius: 10px;
 }
 
 .folder:hover {
-	background-color: white;
+	background-image: url(../img/folderhover.gif);
 	cursor: -webkit-grab;
 }
 
@@ -34,9 +36,9 @@ body {
 }
 
 #edit {
-	position: fixed;
+	position: relative;
 }
 
 #folder {
-	position: fixed;
+	position: relative;
 }
