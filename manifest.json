@@ -21,6 +21,7 @@
 		"chrome://favicon/",
 		"bookmarks",
 		"tabs",
-		"clipboardWrite"
+		"clipboardWrite",
+		"webNavigation"
 	]
 }

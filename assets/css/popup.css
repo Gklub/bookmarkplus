@@ -42,3 +42,6 @@ body {
 #folder {
 	position: relative;
 }
+.top{
+	z-index: 1050;
+}

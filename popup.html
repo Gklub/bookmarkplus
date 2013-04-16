@@ -1,6 +1,7 @@
 <!doctype html>
 <html>
 <head>
+	<meta charset="utf-8"/>
 	<link rel="stylesheet" href="assets/css/bootstrap.min.css" >
 	<link rel="stylesheet" href="assets/css/bootstrap-responsive.min.css" >
 	<link rel="stylesheet" href="assets/css/popup.css">
@@ -13,13 +14,15 @@
 		</div>
 	</div>
 	
-	<div class="modal hide" data-backdrop="true" data-keyboard="true" id="folder">
+	<div class="top hide" data-backdrop="true" data-keyboard="true" id="folder">
+		<input type = "button" id="addFolder" value="新建文件夹" />
+		<input type = "button" id="addBookMark" value="添加当前书签" />
 		<div class="row">
 			<div class="modal-body" id="inside"></div>
 		</div>
 	</div>
 	
-	<div class="modal hide" data-backdrop="false" data-keyboard="true" id="edit">
+	<div class="top hide" data-backdrop="false" data-keyboard="true" id="edit">
 		<div class="modal-header">
 			<a class="close" data-dismiss="modal">&times;</a>
 			<h2>Edit Title</h2>
