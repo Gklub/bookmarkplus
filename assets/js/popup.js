@@ -10,11 +10,12 @@
 var idOperating1 = 0;
 var idOperating2 = 0;
 var count = 1;
+var currentId = 0;//表示当前页面的父节点id，默认是0，即指向书签树的root节点
 
 //初始化，绑定事件监听－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－
 $(dumpBookmarks());
 
-//绑定编辑功能
+//绑定编辑功能,更新标签名字
 $(
 	$('#btnConfirm').click(function() {
 		var titleChanged = $('#editInput').val();
@@ -31,12 +32,41 @@ $(
 		clean();
 	})
 );
+$(	
+	$('#addFolder').click(function(){
+		var newBookMark = {
+			parentId:currentId+''
+		};
+		var newBookMarkNode = chrome.bookmarks.create(newBookMark,function(newBookMarkNode){
+			$('#editInput').val('');
+			idOperating1 = newBookMarkNode.id;//将idOperationg1设置成新文件夹的id。
+			$('#edit').modal('show');
+		});
+	})
+);
 
 $(
 	$('#folder').on('hidden', function () {
 		clean();
 	})
 );
+
+$(
+	$('#addBookMark').click(function(){
+		console.log(chrome.tabs.url);
+		var tabs = chrome.tabs.query({currentWindow:true,highlighted:true},function(tabs){
+			var bookMark ={
+				parentId:currentId+''
+			};
+			bookMark.title = tabs[0].title+'';
+			bookMark.url = tabs[0].url+'';	
+			//添加一个chrome书签
+			chrome.bookmarks.create(bookMark);
+			location.reload();
+		});
+	})
+)
+
 
 //右键菜单----------------------------------------------------------------------
 $(function() {
@@ -102,21 +132,21 @@ function dumpBookmarks(query) {
     		dumpTreeNodes(bookmarkTreeNodes, query);
       	});
 }
-
+/*添加显示chrome浏览器默认的书签文件夹*/
 function dumpTreeNodes(bookmarkNodes, query) {
 	var i;
 	for (i = 0; i < bookmarkNodes.length; i++) {
 		$('#bookmarks').append(dumpNode(bookmarkNodes[i], query));
 	}
 }
-
+/*添加显示自定义的书签文件夹*/
 function dumpInsideNodes(bookmarkNodes, query) {
 	var i;
 	for (i = 0; i < bookmarkNodes.length; i++) {
 		$('#inside').append(dumpNode(bookmarkNodes[i], query));
 	}
 }
-
+/*为每个书签（包括书签文件夹）生成一个div，并返回*/
 function dumpNode(bookmarkNode, query) {
 	var block = $('<div>');
 	var br = $('<br>');
@@ -140,7 +170,7 @@ function dumpNode(bookmarkNode, query) {
 	});
 	
 	//书签夹和书签的click事件，drop事件，样式都不同，区分方法则为bookmarkNode.url
-	if(bookmarkNode.title && bookmarkNode.url) {
+	if(bookmarkNode.title && bookmarkNode.url) {//书签部分
 		block.addClass("block");  //添加样式
 		
 		block.click(function() {
@@ -155,10 +185,11 @@ function dumpNode(bookmarkNode, query) {
 		var favicon = $('<img>');
 		favicon.attr('src', 'chrome://favicon/' + bookmarkNode.url);
 		block.prepend(favicon);
-	}else if(bookmarkNode.title) {
+	}else if(bookmarkNode.title) {//书签文件夹部分
 		block.addClass("folder"); //添加样式
 		
 		block.click(function() {
+			currentId = block.attr('data-id');
 			clean();
 			dumpInsideNodes(bookmarkNode.children);
 			$('#folder').modal('show');
@@ -197,7 +228,7 @@ function handleBookmarkDrop(idDrop) {
 			parentId: "1",
 			title: "Untitled Folder"
 		}, function(bookmarkFolderCreated) {
-			console.log("BookmarkFolder has been created successfully." + bookmarkFolderCreated);
+			console.log("BookmarkFolder has been created successfully." + bookmarkFolderCreated.id);
 			//将两个书签都移动到书签夹里
 			chrome.bookmarks.move(
 				idDropped,
@@ -229,7 +260,6 @@ function handleFolderDrop(idDrop) {
 	}
 	//clean
 	clean();
-	
 	location.reload();
 }
 
