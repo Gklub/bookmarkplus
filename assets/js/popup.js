@@ -4,38 +4,37 @@
 *			GeeKlub.org
 *-----------------------------------------*/
 (function() {
-	var idOperating1 = 0;
-    var idOperating2 = 0;
-	var root;
-	var children;//The root's children.
-    var bookmarksBar;
-    var otherBookmarks;
-    var index;
-    var currentId = 0;//表示当前页面的父节点id，默认是0，即指向书签树的root节点.
-    chrome.bookmarks.getTree(
-		function(bookmarkTreeNodes){
-			root = bookmarkTreeNodes[0];
-			children = root.children;
-			bookmarksBar = children[0];
-			otherBookmarks = children[1];
-			console.log(otherBookmarks);
-			for (index = 0; index < bookmarksBar.children.length; index++) {
-				$('#bookmarks').append(dumpNode(bookmarksBar.children[index]));
+	var idOperating1 = '0';
+	var idOperating2 = '0';
+	var index;
+	var idCurrentDir = '0'; // Stands for the current directory.
+	load(idCurrentDir);
+	/*load*/
+	function load(id){
+		clean();
+		chrome.bookmarks.getSubTree(id,function(subtree){
+			subtree= subtree[0].children;
+			dumpInsideNodes(subtree);
+		});
+		$('.path').click(function(){
+			if($(this).hasClass('active')){
+				return;
+			}else{
+				$(this).parent().find('.active').removeClass('active');
+				$(this).addClass("active");
+				load($(this).attr('idDir'));
 			}
-			for(index = 0; index < otherBookmarks.children.length; index++){
-				$('#bookmarks').append(dumpNode(otherBookmarks.children[index]));
-			}
-			$('#bookmarks').append(dumpNode(children[2]));
-    });
-    /*添加显示自定义的书签文件夹*/
+		});
+	}
+	/*添加显示自定义的书签文件夹*/
 	function dumpInsideNodes(bookmarkNodes, query) {
 		var i;
 		for (i = 0; i < bookmarkNodes.length; i++) {
-			$('#inside').append(dumpNode(bookmarkNodes[i], query));
+			$('#bookmarks').append(dumpNode(bookmarkNodes[i], query));
 		}
 	}
 	/*为每个书签（包括书签文件夹）生成一个div，并返回*/
-    function dumpNode(bookmarkNode, query) {
+	function dumpNode(bookmarkNode, query) {
 		var block = $('<div>');
 		var br = $('<br>');
 		//设置方块显示的文字，即title
@@ -61,10 +60,17 @@
 			block.addClass("folder"); //添加样式
 
 			block.click(function() {
-				currentId = block.attr('data-id');
+				idCurrentDir = block.attr('data-id');
+				if($('#dirPath').find('.active').next().length !== 0){
+					$('#dirPath').find('.active').nextAll().remove();
+				}
+				$('#dirPath').find('.active').removeClass();
+				if(block.text() === ""){
+					block.text('空');
+				}
+				$('#dirPath').append("<li class='path active' idDir="+idCurrentDir+"><p>"+block.text()+"</p></li>");
 				clean();
-				dumpInsideNodes(bookmarkNode.children);
-				$('#folder').modal('show');
+				load(idCurrentDir);
 			});
 
 			block.on('drop', function(event) {
@@ -87,9 +93,8 @@
 			favicon.attr('src', 'chrome://favicon/' + bookmarkNode.url);
 			block.prepend(favicon);
 		}
-		console.log(block);
 		return block;
-    }
+	}
 	//handleBookmarkDrop-----------------------------------------------------------
 	function handleBookmarkDrop(idDrop) {
 		var idDropped = idOperating1;
@@ -135,9 +140,9 @@
 	}
 	//clean------------------------------------------------------------------------------
 	function clean() {
-		idOperating1 = 0;
-		idOperating2 = 0;
-		$('#inside').html("");
+		idOperating1 = '0';
+		idOperating2 = '0';
+		$('#bookmarks').html("");
 	}
 	//复制到剪切板，其实就是临时创建一个div然后把text放进去再设置焦点，最后模拟ctrl+c行为----
 	function copyToClipboard( text ){
@@ -151,36 +156,37 @@
 		document.execCommand("Copy", false, null);
 		document.body.removeChild(copyDiv);
 	}
+	function changePath(idPath){
 
+	}
+	$(
 
-	//Update the  name of a bookmark folder-------------------------------
+	);
+
 	$(
 		$('#btnConfirm').click(function() {
 			var titleChanged = $('#editInput').val();
-			console.log(titleChanged);
-			var id = idOperating1;
 			chrome.bookmarks.update(
-				id,
+				idOperating1,
 				{title: titleChanged}
 			);
-			$('[data-id=' + id +']').text(titleChanged);
 			$('#edit').modal('hide');
-			//clean
-			clean();
+			load(idCurrentDir);
 		})
 	);
-
 	//New a  bookmark folder-----------------------------------------------------------------
 	$(
 		$('#addFolder').click(function(){
 			var newBookMark = {
-				parentId:currentId+''
+				'parentId':idCurrentDir
 			};
-			var newBookMarkNode = chrome.bookmarks.create(newBookMark,function(newBookMarkNode){
+			chrome.bookmarks.create(newBookMark,function(newBookMarkNode){
 				$('#editInput').val('');
-				idOperating1 = newBookMarkNode.id;//将idOperationg1设置成新文件夹的id。
 				$('#edit').modal('show');
+				idOperating1 = newBookMarkNode.id;
+				console.log("idOperating1:"+idOperating1+".idCurrentDir:"+idCurrentDir);
 			});
+
 		})
 	);
 
@@ -192,21 +198,19 @@
 
 	//Add the present bookmark---------------------------------------------------------------
 	$(
-		$('#addBookMark').click(function(){
-			console.log(chrome.tabs.url);
+		$('#addBookmark').click(function(){
 			var tabs = chrome.tabs.query({currentWindow:true,highlighted:true},function(tabs){
-				var bookMark ={
-					parentId:currentId+''
+				var bookmark ={
+					'parentId':idCurrentDir+''
 				};
-				bookMark.title = tabs[0].title+'';
-				bookMark.url = tabs[0].url+'';
+				bookmark.title = tabs[0].title+'';
+				bookmark.url = tabs[0].url+'';
 				//添加一个chrome书签
-				chrome.bookmarks.create(bookMark);
-				location.reload();
+				chrome.bookmarks.create(bookmark);
+				load(idCurrentDir);
 			});
 		})
 	);
-
 
 	//右键菜单----------------------------------------------------------------------
 	$(function() {
@@ -217,8 +221,8 @@
 					name: "Edit",
 					callback: function(key, options) {
 						$('#editInput').val($(this).text());
-						idOperating1 = $(this).attr('data-id');
 						$('#edit').modal('show');
+						idOperating1 = $(this).attr('data-id');
 					}
 				},
 				"copy": {

@@ -10,16 +10,22 @@
 <body>	
 	<div class="container">
 		<div class="row">
-			<div id="bookmarks"></div>
-		</div>
-	</div>
-	
-	<div class="top hide" data-backdrop="true" data-keyboard="true" id="folder">
-
-		<input type = "button" id="addFolder" value="新建文件夹" />
-		<input type = "button" id="addBookMark" value="添加当前书签" />
-		<div class="row">
-			<div class="modal-body" id="inside"></div>
+			<div >
+				<ul id="dirPath">
+					<li class=" path active" idDir="0"><p >书签</p></li>
+				</ul>
+			</div>
+			<div class='clear'></div>
+			<div id="add_module">
+				<div class="span1 addFolder" id="addFolder">
+					<i class="icon-plus"></i>
+				</div>
+				<div class="span1 addBookmark" id="addBookmark">
+					<i class="icon-plus"></i>
+				</div>
+			</div >
+			<div id="bookmarks">
+			</div>
 		</div>
 	</div>
 	
