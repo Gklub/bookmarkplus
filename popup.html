@@ -10,16 +10,27 @@
 <body>	
 	<div class="container">
 		<div class="row">
-			<div id="bookmarks"></div>
+			<div id="add_module">
+				<div class="span2 addBookmark" id="addBookmark">
+					<h3>Add here</h3>
+				</div>
+				<div class="span2 pull-right addFolder" id="addFolder">
+					<h3>Create folder</h3>
+				</div>
+			</div>
 		</div>
-	</div>
-	
-	<div class="top hide" data-backdrop="true" data-keyboard="true" id="folder">
 
-		<input type = "button" id="addFolder" value="新建文件夹" />
-		<input type = "button" id="addBookMark" value="添加当前书签" />
 		<div class="row">
-			<div class="modal-body" id="inside"></div>
+			<div>
+				<ul id="dirPath">
+					<li class=" path active" idDir="0"><p>Bookmark+</p></li>
+				</ul>
+			</div>
+
+			<div class='clear'></div>
+
+			<div id="bookmarks">
+			</div>
 		</div>
 	</div>
 	
@@ -39,6 +50,7 @@
 
 	<script src="assets/js/jquery.js"></script>
 	<script src="assets/js/bootstrap.min.js"></script>
+	<script src="assets/js/bootstrap-popover.js"></script>
 	<script src="assets/js/popup.js"></script>
 	<script src="assets/js/jquery.contextMenu.js"></script>
 </body>

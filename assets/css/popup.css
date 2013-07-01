@@ -6,7 +6,7 @@ body {
 	height: 50px;
 	padding: 10px;
 	margin: 10px;
-	background-color: #f0f8ff;
+	background-color: hsl(0, 0%, 92%);
 	overflow: hidden;
 	text-overflow:ellipsis;
 	border-radius: 10px;
@@ -17,8 +17,22 @@ body {
 	cursor: -webkit-grab;
 }
 
+.addBookmark:hover {
+	cursor: pointer;
+	color: hsl(0, 0%, 88%);
+}
+
 .folder {
-	background-image: url(../img/folder.gif);
+	background-image: url(../img/folder.png);
+	background-repeat: no-repeat;
+
+	height: 50px;
+	padding: 10px;
+	margin: 10px;
+	overflow: hidden;
+	border-radius: 10px;
+}
+.addFolder{
 	height: 50px;
 	padding: 10px;
 	margin: 10px;
@@ -26,8 +40,13 @@ body {
 	border-radius: 10px;
 }
 
+.addFolder:hover {
+	cursor: pointer;
+	color: hsl(0, 0%, 88%);
+}
+
 .folder:hover {
-	background-image: url(../img/folderhover.gif);
+	opacity: 0.5;
 	cursor: -webkit-grab;
 }
 
@@ -42,6 +61,57 @@ body {
 #folder {
 	position: relative;
 }
+
 .top{
 	z-index: 1050;
+}
+
+.clear{
+	clear:both;
+}
+
+#dirPath p{
+	display:block;
+	padding: 8px 13px 0px 10px;
+	text-shadow: none;
+
+	color: #22262f;
+	font-size: 10px;
+}
+#dirPath li{
+	display:block;
+	list-style: none;
+	float: left;
+	box-shadow: 0 0 0 2px #dee0e5 inset;
+	border-radius: 4px;
+	margin-right: 2px;
+	width: 80px;
+	height: 35px;
+	text-overflow: ellipsis;
+}
+#dirPath li.active{
+	cursor: pointer;
+	box-shadow: 0 0 0 2px #dee0e5 inset;
+	border-radius: 4px;
+
+	background-color: hsl(0, 0%, 75%);
+	-webkit-box-shadow: inset 0 1px 0 rgba(255,255,255,.1), 0 1px 5px rgba(0,0,0,.25);
+	box-shadow: inset 0 1px 0 rgba(255,255,255,.1), 0 1px 5px rgba(0,0,0,.25);
+	background-image: -webkit-linear-gradient(top, hsl(0, 0%, 88%), hsl(0, 0%, 75%));
+}
+#dirPath li.active:hover{
+	background-image: -webkit-linear-gradient(top, hsl(0, 0%, 88%), hsl(0, 0%, 88%));
+}
+#dirPath li:hover{
+	background-color: hsl(0, 0%, 75%);
+	-webkit-box-shadow: inset 0 1px 0 rgba(255,255,255,.1), 0 1px 5px rgba(0,0,0,.25);
+	box-shadow: inset 0 1px 0 rgba(255,255,255,.1), 0 1px 5px rgba(0,0,0,.25);
+	background-image: -webkit-linear-gradient(top, hsl(0, 0%, 88%), hsl(0, 0%, 75%));
+}
+#dirPath li{
+	cursor: pointer;
+	text-align: center;
+}
+.row ul{
+	margin: 0 0 -2px 11px;
 }
