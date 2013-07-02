@@ -13,16 +13,17 @@
 	/*load*/
 	function load(id){
 		clean();
-		chrome.bookmarks.getSubTree(id,function(subtree){
+		chrome.bookmarks.getSubTree(id, function (subtree) {
 			subtree= subtree[0].children;
 			dumpInsideNodes(subtree);
 		});
-		$('.path').click(function(){
-			if($(this).hasClass('active')){
+		$('.path').click(function () {
+			if($(this).hasClass('active')) {
 				return;
-			}else{
+			} else {
 				$(this).parent().find('.active').removeClass('active');
 				$(this).addClass("active");
+				idCurrentDir = $(this).attr('idDir');
 				load($(this).attr('idDir'));
 			}
 		});
@@ -186,7 +187,7 @@
 	$(
 		$('#addFolder').click(function(){
 			var newBookMark = {
-				'parentId':idCurrentDir
+				'parentId': idCurrentDir
 			};
 			chrome.bookmarks.create(newBookMark,function(newBookMarkNode){
 				$('#editInput').val('');
@@ -207,12 +208,12 @@
 	//Add the present bookmark---------------------------------------------------------------
 	$(
 		$('#addBookmark').click(function(){
-			var tabs = chrome.tabs.query({currentWindow:true,highlighted:true}, function (tabs) {
+			var tabs = chrome.tabs.query({currentWindow: true, highlighted: true}, function (tabs) {
 				var bookmark = {
-					'parentId':idCurrentDir+''
+					'parentId':idCurrentDir + ''
 				};
-				bookmark.title = tabs[0].title+'';
-				bookmark.url = tabs[0].url+'';
+				bookmark.title = tabs[0].title + '';
+				bookmark.url = tabs[0].url + '';
 				//添加一个chrome书签
 				chrome.bookmarks.create(bookmark);
 				load(idCurrentDir);
