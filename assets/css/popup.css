@@ -1,7 +1,19 @@
 body {
 	width: 530px;
 }
-
+.input-append{
+	position: relative;
+}
+.input-append .typeahead.dropdown-menu{
+overflow-x: hidden;
+max-height: 200px;
+max-width: 400px;
+margin: 0px;
+}
+.input-append .add-on{
+	vertical-align: top;
+	margin-left: -5px;
+}
 .block {
 	height: 50px;
 	padding: 10px;
@@ -16,8 +28,33 @@ body {
 	background-color: white;
 	cursor: -webkit-grab;
 }
-
+#add_module,
+#search_module{
+	padding-left: 10px;
+}
+.addBookmark {
+/*	height: 50px;
+	padding: 10px;
+	margin: 10px;
+	overflow: hidden;*/
+}
+.addBookmark .icon-bookmark,
+.addFolder .icon-plus-sign{
+	vertical-align: middle;
+}
 .addBookmark:hover {
+	cursor: pointer;
+	color: hsl(0, 0%, 88%);
+}
+
+.addFolder{
+/*	height: 50px;
+	padding: 10px;
+	margin: 10px;
+	overflow: hidden;*/
+}
+
+.addFolder:hover {
 	cursor: pointer;
 	color: hsl(0, 0%, 88%);
 }
@@ -31,18 +68,6 @@ body {
 	margin: 10px;
 	overflow: hidden;
 	border-radius: 10px;
-}
-.addFolder{
-	height: 50px;
-	padding: 10px;
-	margin: 10px;
-	overflow: hidden;
-	border-radius: 10px;
-}
-
-.addFolder:hover {
-	cursor: pointer;
-	color: hsl(0, 0%, 88%);
 }
 
 .folder:hover {
@@ -88,6 +113,7 @@ body {
 	width: 80px;
 	height: 35px;
 	text-overflow: ellipsis;
+	overflow: hidden;
 }
 #dirPath li.active{
 	cursor: pointer;
