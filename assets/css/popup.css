@@ -1,7 +1,19 @@
 body {
 	width: 530px;
 }
-
+.input-append{
+	position: relative;
+}
+.input-append .typeahead.dropdown-menu{
+overflow-x: hidden;
+max-height: 200px;
+max-width: 400px;
+margin: 0px;
+}
+.input-append .add-on{
+	vertical-align: top;
+	margin-left: -5px;
+}
 .block {
 	height: 50px;
 	padding: 10px;
@@ -17,23 +29,18 @@ body {
 	cursor: -webkit-grab;
 }
 
-.addBookmark {
-	height: 50px;
-	padding: 10px;
-	margin: 10px;
-	overflow: hidden;
+#add_module,
+#search_module{
+	padding-left: 10px;
 }
 
+.addBookmark .icon-bookmark,
+.addFolder .icon-plus-sign{
+	vertical-align: middle;
+}
 .addBookmark:hover {
 	cursor: pointer;
 	color: hsl(0, 0%, 88%);
-}
-
-.addFolder{
-	height: 50px;
-	padding: 10px;
-	margin: 10px;
-	overflow: hidden;
 }
 
 .addFolder:hover {
@@ -44,12 +51,18 @@ body {
 .folder {
 	background-image: url(../img/folder.png);
 	background-repeat: no-repeat;
-
+        
 	height: 50px;
 	padding: 10px;
 	margin: 10px;
 	overflow: hidden;
-	border-radius: 10px;
+}
+
+.addFolder{
+	height: 50px;
+	padding: 10px;
+	margin: 10px;
+	overflow: hidden;
 }
 
 .folder:hover {

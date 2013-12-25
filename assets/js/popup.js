@@ -11,7 +11,9 @@
 	var idCurrentDir = '0'; // Stands for the current directory.
 	load(idCurrentDir);
 	/*load*/
-	function load(id){
+	function load(id){		
+		bindSearchInputEvent();
+		bindSearchResultClickEvent();
 		clean();
 		chrome.bookmarks.getSubTree(id, function (subtree) {
 			subtree= subtree[0].children;
@@ -26,6 +28,31 @@
 				idCurrentDir = $(this).attr('idDir');
 				load($(this).attr('idDir'));
 			}
+		});		
+	}
+	function bindSearchResultClickEvent(){
+		$(".typeahead.dropdown-menu").on("click","li a",function(){
+			chrome.tabs.create({url: $(this).attr("href")});
+		});
+	}
+	/**
+	 *search the bookmarks
+	 */
+	function bindSearchInputEvent() {
+		$("#search_module input").keydown(function(){
+			chrome.bookmarks.search($(this).val(),function(data){
+				$("#search_module input").next().empty();
+				$("#search_module input").next().show();
+				$.each(data, function(index, val) {
+					$("#search_module input").next().append("<li><a title='"+ val.title +"' href='"+ val.url +"'>"+ val.title +"</a></li>");
+				});
+			});			
+		}).blur(function(event) {
+			$(this).next().hide('slow/400/fast');
+		}).focus(function(event) {
+			if ( 0 !== $(this).next().children().length ) {
+				$(this).next().show('slow/400/fast');
+			};
 		});
 	}
 	/*添加显示自定义的书签文件夹*/
